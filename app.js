@@ -2,6 +2,7 @@ const express = require("express");
 const hdbars = require("express-handlebars");
 const mongoose = require("mongoose");
 const apiRouter = require("./route/apiRouter");
+const session = require('express-session')
 const app = express();
 const port = 3000;
 
@@ -23,6 +24,10 @@ db.on("open", () => {
 app.engine("handlebars", hdbars({ defaultLayout: "main.handlebars" }));
 app.set("view engine", "handlebars");
 app.use(express.static("public"));
-
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+}))
 // api router
 app.use(apiRouter);
